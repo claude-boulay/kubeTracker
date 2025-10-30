@@ -263,12 +263,19 @@ cd k8s-manifests
 # Appliquer tous les manifestes dans l'ordre
 kubectl apply -f 00-namespace.yaml
 kubectl apply -f 01-mongodb-storage.yaml
-kubectl apply -f 02-mongodb.yaml
-kubectl apply -f 03-queue.yaml
-kubectl apply -f 04-position-simulator.yaml
-kubectl apply -f 05-position-tracker.yaml
-kubectl apply -f 06-api-gateway.yaml
-kubectl apply -f 07-web-app.yaml
+kubectl apply -f 02-mongodb-deployment.yaml
+kubectl apply -f 02-mongodb-service.yaml
+kubectl apply -f 03-queue-deployment.yaml
+kubectl apply -f 03-queue-service.yaml
+kubectl apply -f 03-queue-admin-service.yaml
+kubectl apply -f 04-position-simulator-deployment.yaml
+kubectl apply -f 04-position-simulator-service.yaml
+kubectl apply -f 05-position-tracker-deployment.yaml
+kubectl apply -f 05-position-tracker-service.yaml
+kubectl apply -f 06-api-gateway-deployment.yaml
+kubectl apply -f 06-api-gateway-service.yaml
+kubectl apply -f 07-web-app-deployment.yaml
+kubectl apply -f 07-web-app-service.yaml
 
 # Ou appliquer tous les fichiers d'un coup
 kubectl apply -f .
@@ -285,12 +292,19 @@ kind: Kustomization
 resources:
   - 00-namespace.yaml
   - 01-mongodb-storage.yaml
-  - 02-mongodb.yaml
-  - 03-queue.yaml
-  - 04-position-simulator.yaml
-  - 05-position-tracker.yaml
-  - 06-api-gateway.yaml
-  - 07-web-app.yaml
+  - 02-mongodb-deployment.yaml
+  - 02-mongodb-service.yaml
+  - 03-queue-deployment.yaml
+  - 03-queue-service.yaml
+  - 03-queue-admin-service.yaml
+  - 04-position-simulator-deployment.yaml
+  - 04-position-simulator-service.yaml
+  - 05-position-tracker-deployment.yaml
+  - 05-position-tracker-service.yaml
+  - 06-api-gateway-deployment.yaml
+  - 06-api-gateway-service.yaml
+  - 07-web-app-deployment.yaml
+  - 07-web-app-service.yaml
 ```
 
 Puis déployer :

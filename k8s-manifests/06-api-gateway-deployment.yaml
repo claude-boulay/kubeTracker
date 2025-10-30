@@ -1,25 +1,25 @@
 ---
-# Deployment pour Position Tracker
+# Deployment pour API Gateway
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fleetman-position-tracker
+  name: fleetman-api-gateway
   namespace: fleetman
   labels:
-    app: fleetman-position-tracker
+    app: fleetman-api-gateway
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: fleetman-position-tracker
+      app: fleetman-api-gateway
   template:
     metadata:
       labels:
-        app: fleetman-position-tracker
+        app: fleetman-api-gateway
     spec:
       containers:
-      - name: position-tracker
-        image: supinfo4kube/position-tracker:1.0.1
+      - name: api-gateway
+        image: supinfo4kube/api-gateway:1.0.1
         ports:
         - containerPort: 8080
         env:
@@ -54,24 +54,6 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - fleetman-position-tracker
+                  - fleetman-api-gateway
               topologyKey: kubernetes.io/hostname
-
----
-# Service pour Position Tracker (ClusterIP - accès interne)
-apiVersion: v1
-kind: Service
-metadata:
-  name: fleetman-position-tracker
-  namespace: fleetman
-  labels:
-    app: fleetman-position-tracker
-spec:
-  type: ClusterIP
-  selector:
-    app: fleetman-position-tracker
-  ports:
-  - port: 8080
-    targetPort: 8080
-    protocol: TCP
 

@@ -26,34 +26,15 @@ spec:
         volumeMounts:
         - name: mongodb-storage
           mountPath: /data/db
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        # resources:
+        #   requests:
+        #     memory: "256Mi"
+        #     cpu: "100m"
+        #   limits:
+        #     memory: "512Mi"
+        #     cpu: "500m"
       volumes:
       - name: mongodb-storage
         persistentVolumeClaim:
           claimName: mongodb-pvc
-
----
-# Service pour MongoDB (ClusterIP - interne uniquement)
-apiVersion: v1
-kind: Service
-metadata:
-  name: fleetman-mongodb
-  namespace: fleetman
-  labels:
-    app: fleetman-mongodb
-spec:
-  type: ClusterIP
-  selector:
-    app: fleetman-mongodb
-  ports:
-  - port: 27017
-    targetPort: 27017
-    protocol: TCP
-    name: mongodb
 

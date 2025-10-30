@@ -8,16 +8,23 @@ Ce projet contient tous les éléments nécessaires pour déployer l'application
 
 ```
 ProjetFinal/
-├── k8s-manifests/                  # Manifestes Kubernetes
-│   ├── 00-namespace.yaml           # Namespace fleetman
-│   ├── 01-mongodb-storage.yaml     # PV et PVC pour MongoDB
-│   ├── 02-mongodb.yaml             # Déploiement + Service MongoDB
-│   ├── 03-queue.yaml               # Déploiement + Services ActiveMQ
-│   ├── 04-position-simulator.yaml  # Déploiement + Service Position Simulator
-│   ├── 05-position-tracker.yaml    # Déploiement + Service Position Tracker
-│   ├── 06-api-gateway.yaml         # Déploiement + Service API Gateway
-│   ├── 07-web-app.yaml             # Déploiement + Service Web App
-│   └── kustomization.yaml          # Fichier Kustomize (optionnel)
+├── k8s-manifests/                          # Manifestes Kubernetes (16 fichiers)
+│   ├── 00-namespace.yaml                   # Namespace fleetman
+│   ├── 01-mongodb-storage.yaml             # PV et PVC pour MongoDB
+│   ├── 02-mongodb-deployment.yaml          # Déploiement MongoDB
+│   ├── 02-mongodb-service.yaml             # Service MongoDB
+│   ├── 03-queue-deployment.yaml            # Déploiement ActiveMQ
+│   ├── 03-queue-service.yaml               # Service ClusterIP ActiveMQ
+│   ├── 03-queue-admin-service.yaml         # Service NodePort Admin ActiveMQ
+│   ├── 04-position-simulator-deployment.yaml  # Déploiement Position Simulator
+│   ├── 04-position-simulator-service.yaml     # Service Position Simulator
+│   ├── 05-position-tracker-deployment.yaml    # Déploiement Position Tracker
+│   ├── 05-position-tracker-service.yaml       # Service Position Tracker
+│   ├── 06-api-gateway-deployment.yaml      # Déploiement API Gateway
+│   ├── 06-api-gateway-service.yaml         # Service API Gateway
+│   ├── 07-web-app-deployment.yaml          # Déploiement Web App
+│   ├── 07-web-app-service.yaml             # Service Web App
+│   └── kustomization.yaml                  # Fichier Kustomize (optionnel)
 │
 ├── documentation-cluster-kubernetes.md  # Documentation détaillée du cluster
 ├── README.md                       # Instructions complètes de déploiement
@@ -85,11 +92,11 @@ kubectl get nodes -o wide
 
 | Composant | Déploiement | Service | Fichier | Points |
 |-----------|-------------|---------|---------|--------|
-| position-simulator | ✅ | ✅ | 04-position-simulator.yaml | 2 |
-| queue | ✅ | ✅ | 03-queue.yaml | 2 |
-| position-tracker | ✅ | ✅ | 05-position-tracker.yaml | 2 |
-| api-gateway | ✅ | ✅ | 06-api-gateway.yaml | 2 |
-| web-app | ✅ | ✅ | 07-web-app.yaml | 2 |
+| position-simulator | ✅ | ✅ | 04-position-simulator-*.yaml (2 fichiers) | 2 |
+| queue | ✅ | ✅ | 03-queue-*.yaml (3 fichiers) | 2 |
+| position-tracker | ✅ | ✅ | 05-position-tracker-*.yaml (2 fichiers) | 2 |
+| api-gateway | ✅ | ✅ | 06-api-gateway-*.yaml (2 fichiers) | 2 |
+| web-app | ✅ | ✅ | 07-web-app-*.yaml (2 fichiers) | 2 |
 
 **Vérification** :
 ```bash
@@ -369,6 +376,7 @@ sudo rm -rf /mnt/data/mongodb
 - [ ] Test de résilience : Arrêt d'un worker → Application toujours accessible
 - [ ] Vérification des replicas : `kubectl get pods -n fleetman -o wide`
 - [ ] Vérification de la persistance MongoDB : `kubectl get pv,pvc -n fleetman`
+- [ ] Organisation modulaire : Déploiements et services séparés pour chaque composant
 
 ---
 

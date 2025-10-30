@@ -5,14 +5,36 @@ kind: Kustomization
 namespace: fleetman
 
 resources:
+  # Namespace
   - 00-namespace.yaml
+  
+  # Stockage MongoDB
   - 01-mongodb-storage.yaml
-  - 02-mongodb.yaml
-  - 03-queue.yaml
-  - 04-position-simulator.yaml
-  - 05-position-tracker.yaml
-  - 06-api-gateway.yaml
-  - 07-web-app.yaml
+  
+  # MongoDB
+  - 02-mongodb-deployment.yaml
+  - 02-mongodb-service.yaml
+  
+  # ActiveMQ Queue
+  - 03-queue-deployment.yaml
+  - 03-queue-service.yaml
+  - 03-queue-admin-service.yaml
+  
+  # Position Simulator
+  - 04-position-simulator-deployment.yaml
+  - 04-position-simulator-service.yaml
+  
+  # Position Tracker
+  - 05-position-tracker-deployment.yaml
+  - 05-position-tracker-service.yaml
+  
+  # API Gateway
+  - 06-api-gateway-deployment.yaml
+  - 06-api-gateway-service.yaml
+  
+  # Web App
+  - 07-web-app-deployment.yaml
+  - 07-web-app-service.yaml
 
 # Labels communs pour toutes les ressources
 commonLabels:
@@ -23,4 +45,3 @@ commonLabels:
 commonAnnotations:
   description: "Application de suivi de flotte de véhicules"
   version: "1.0.0"
-

@@ -119,12 +119,19 @@ kubectl get nodes -o wide
 # Déployer dans l'ordre
 kubectl apply -f k8s-manifests/00-namespace.yaml
 kubectl apply -f k8s-manifests/01-mongodb-storage.yaml
-kubectl apply -f k8s-manifests/02-mongodb.yaml
-kubectl apply -f k8s-manifests/03-queue.yaml
-kubectl apply -f k8s-manifests/04-position-simulator.yaml
-kubectl apply -f k8s-manifests/05-position-tracker.yaml
-kubectl apply -f k8s-manifests/06-api-gateway.yaml
-kubectl apply -f k8s-manifests/07-web-app.yaml
+kubectl apply -f k8s-manifests/02-mongodb-deployment.yaml
+kubectl apply -f k8s-manifests/02-mongodb-service.yaml
+kubectl apply -f k8s-manifests/03-queue-deployment.yaml
+kubectl apply -f k8s-manifests/03-queue-service.yaml
+kubectl apply -f k8s-manifests/03-queue-admin-service.yaml
+kubectl apply -f k8s-manifests/04-position-simulator-deployment.yaml
+kubectl apply -f k8s-manifests/04-position-simulator-service.yaml
+kubectl apply -f k8s-manifests/05-position-tracker-deployment.yaml
+kubectl apply -f k8s-manifests/05-position-tracker-service.yaml
+kubectl apply -f k8s-manifests/06-api-gateway-deployment.yaml
+kubectl apply -f k8s-manifests/06-api-gateway-service.yaml
+kubectl apply -f k8s-manifests/07-web-app-deployment.yaml
+kubectl apply -f k8s-manifests/07-web-app-service.yaml
 ```
 
 ---
@@ -173,7 +180,8 @@ Le PVC doit être en état `Bound`.
 ### Étape 4 : Déployer MongoDB
 
 ```bash
-kubectl apply -f k8s-manifests/02-mongodb.yaml
+kubectl apply -f k8s-manifests/02-mongodb-deployment.yaml
+kubectl apply -f k8s-manifests/02-mongodb-service.yaml
 
 # Vérifier
 kubectl get pods -n fleetman -l app=fleetman-mongodb
@@ -185,7 +193,9 @@ Attendre que le pod MongoDB soit `Running` avant de continuer.
 ### Étape 5 : Déployer ActiveMQ Queue
 
 ```bash
-kubectl apply -f k8s-manifests/03-queue.yaml
+kubectl apply -f k8s-manifests/03-queue-deployment.yaml
+kubectl apply -f k8s-manifests/03-queue-service.yaml
+kubectl apply -f k8s-manifests/03-queue-admin-service.yaml
 
 # Vérifier
 kubectl get pods -n fleetman -l app=fleetman-queue
@@ -195,7 +205,8 @@ kubectl get svc -n fleetman | grep queue
 ### Étape 6 : Déployer Position Simulator
 
 ```bash
-kubectl apply -f k8s-manifests/04-position-simulator.yaml
+kubectl apply -f k8s-manifests/04-position-simulator-deployment.yaml
+kubectl apply -f k8s-manifests/04-position-simulator-service.yaml
 
 # Vérifier
 kubectl get pods -n fleetman -l app=fleetman-position-simulator
@@ -204,7 +215,8 @@ kubectl get pods -n fleetman -l app=fleetman-position-simulator
 ### Étape 7 : Déployer Position Tracker
 
 ```bash
-kubectl apply -f k8s-manifests/05-position-tracker.yaml
+kubectl apply -f k8s-manifests/05-position-tracker-deployment.yaml
+kubectl apply -f k8s-manifests/05-position-tracker-service.yaml
 
 # Vérifier
 kubectl get pods -n fleetman -l app=fleetman-position-tracker
@@ -215,7 +227,8 @@ Ce service a 2 replicas pour la haute disponibilité.
 ### Étape 8 : Déployer API Gateway
 
 ```bash
-kubectl apply -f k8s-manifests/06-api-gateway.yaml
+kubectl apply -f k8s-manifests/06-api-gateway-deployment.yaml
+kubectl apply -f k8s-manifests/06-api-gateway-service.yaml
 
 # Vérifier
 kubectl get pods -n fleetman -l app=fleetman-api-gateway
@@ -224,7 +237,8 @@ kubectl get pods -n fleetman -l app=fleetman-api-gateway
 ### Étape 9 : Déployer Web App
 
 ```bash
-kubectl apply -f k8s-manifests/07-web-app.yaml
+kubectl apply -f k8s-manifests/07-web-app-deployment.yaml
+kubectl apply -f k8s-manifests/07-web-app-service.yaml
 
 # Vérifier
 kubectl get pods -n fleetman -l app=fleetman-web-app
@@ -558,12 +572,12 @@ kubectl get pods -n fleetman -o wide
 
 ### Checklist de validation (40 points)
 
-- [x] **Déploiement position-simulator** (2 pts) - Fichier `04-position-simulator.yaml`
-- [x] **Déploiement queue** (2 pts) - Fichier `03-queue.yaml`
-- [x] **Déploiement position-tracker** (2 pts) - Fichier `05-position-tracker.yaml`
-- [x] **Déploiement api-gateway** (2 pts) - Fichier `06-api-gateway.yaml`
-- [x] **Déploiement web-app** (2 pts) - Fichier `07-web-app.yaml`
-- [x] **MongoDB persisté** (7 pts) - Fichiers `01-mongodb-storage.yaml` et `02-mongodb.yaml`
+- [x] **Déploiement position-simulator** (2 pts) - Fichiers `04-position-simulator-deployment.yaml`, `04-position-simulator-service.yaml`
+- [x] **Déploiement queue** (2 pts) - Fichiers `03-queue-deployment.yaml`, `03-queue-service.yaml`, `03-queue-admin-service.yaml`
+- [x] **Déploiement position-tracker** (2 pts) - Fichiers `05-position-tracker-deployment.yaml`, `05-position-tracker-service.yaml`
+- [x] **Déploiement api-gateway** (2 pts) - Fichiers `06-api-gateway-deployment.yaml`, `06-api-gateway-service.yaml`
+- [x] **Déploiement web-app** (2 pts) - Fichiers `07-web-app-deployment.yaml`, `07-web-app-service.yaml`
+- [x] **MongoDB persisté** (7 pts) - Fichiers `01-mongodb-storage.yaml`, `02-mongodb-deployment.yaml`, `02-mongodb-service.yaml`
 - [x] **Isolation appropriée** (3 pts) - Namespace dédié + services ClusterIP/NodePort appropriés
 - [x] **Documentation cluster** (13 pts) - Fichier `documentation-cluster-kubernetes.md`
 - [x] **Instructions claires** (3 pts) - Ce fichier README.md

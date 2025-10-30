@@ -1,0 +1,18 @@
+---
+# Service pour Position Tracker (ClusterIP - accès interne)
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-position-tracker
+  namespace: fleetman
+  labels:
+    app: fleetman-position-tracker
+spec:
+  type: ClusterIP
+  selector:
+    app: fleetman-position-tracker
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+

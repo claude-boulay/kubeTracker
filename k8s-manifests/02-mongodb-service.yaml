@@ -1,0 +1,19 @@
+---
+# Service pour MongoDB (ClusterIP - interne uniquement)
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-mongodb
+  namespace: fleetman
+  labels:
+    app: fleetman-mongodb
+spec:
+  type: ClusterIP
+  selector:
+    app: fleetman-mongodb
+  ports:
+  - port: 27017
+    targetPort: 27017
+    protocol: TCP
+    name: mongodb
+

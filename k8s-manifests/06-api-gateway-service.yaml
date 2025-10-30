@@ -1,0 +1,18 @@
+---
+# Service pour API Gateway (ClusterIP - accès interne)
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-api-gateway
+  namespace: fleetman
+  labels:
+    app: fleetman-api-gateway
+spec:
+  type: ClusterIP
+  selector:
+    app: fleetman-api-gateway
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+

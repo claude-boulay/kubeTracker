@@ -100,33 +100,40 @@ deploy_manifests() {
     
     # MongoDB
     info "Déploiement de MongoDB..."
-    kubectl apply -f 02-mongodb.yaml
+    kubectl apply -f 02-mongodb-deployment.yaml
+    kubectl apply -f 02-mongodb-service.yaml
     info "Attente du démarrage de MongoDB (30s)..."
     sleep 30
     
     # Queue ActiveMQ
     info "Déploiement de ActiveMQ Queue..."
-    kubectl apply -f 03-queue.yaml
+    kubectl apply -f 03-queue-deployment.yaml
+    kubectl apply -f 03-queue-service.yaml
+    kubectl apply -f 03-queue-admin-service.yaml
     sleep 10
     
     # Position Simulator
     info "Déploiement de Position Simulator..."
-    kubectl apply -f 04-position-simulator.yaml
+    kubectl apply -f 04-position-simulator-deployment.yaml
+    kubectl apply -f 04-position-simulator-service.yaml
     sleep 5
     
     # Position Tracker
     info "Déploiement de Position Tracker..."
-    kubectl apply -f 05-position-tracker.yaml
+    kubectl apply -f 05-position-tracker-deployment.yaml
+    kubectl apply -f 05-position-tracker-service.yaml
     sleep 5
     
     # API Gateway
     info "Déploiement de API Gateway..."
-    kubectl apply -f 06-api-gateway.yaml
+    kubectl apply -f 06-api-gateway-deployment.yaml
+    kubectl apply -f 06-api-gateway-service.yaml
     sleep 5
     
     # Web App
     info "Déploiement de Web App..."
-    kubectl apply -f 07-web-app.yaml
+    kubectl apply -f 07-web-app-deployment.yaml
+    kubectl apply -f 07-web-app-service.yaml
     
     cd ..
     

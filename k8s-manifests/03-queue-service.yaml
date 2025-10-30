@@ -1,0 +1,23 @@
+---
+# Service pour ActiveMQ Queue (ClusterIP pour messaging interne)
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue
+  namespace: fleetman
+  labels:
+    app: fleetman-queue
+spec:
+  type: ClusterIP
+  selector:
+    app: fleetman-queue
+  ports:
+  - port: 61616
+    targetPort: 61616
+    protocol: TCP
+    name: messaging
+  - port: 8161
+    targetPort: 8161
+    protocol: TCP
+    name: admin
+

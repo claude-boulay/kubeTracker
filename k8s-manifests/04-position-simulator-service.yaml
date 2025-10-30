@@ -1,0 +1,18 @@
+---
+# Service pour Position Simulator (ClusterIP - pas d'accès externe nécessaire)
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-position-simulator
+  namespace: fleetman
+  labels:
+    app: fleetman-position-simulator
+spec:
+  type: ClusterIP
+  selector:
+    app: fleetman-position-simulator
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+
