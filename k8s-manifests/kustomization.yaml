@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Déploiement de l'application Fleetman sur Kubernetes
+namespace: fleetman
+
+resources:
+  - 00-namespace.yaml
+  - 01-mongodb-storage.yaml
+  - 02-mongodb.yaml
+  - 03-queue.yaml
+  - 04-position-simulator.yaml
+  - 05-position-tracker.yaml
+  - 06-api-gateway.yaml
+  - 07-web-app.yaml
+
+# Labels communs pour toutes les ressources
+commonLabels:
+  project: fleetman
+  managed-by: kustomize
+
+# Annotations communes
+commonAnnotations:
+  description: "Application de suivi de flotte de véhicules"
+  version: "1.0.0"
+

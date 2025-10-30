@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fleetman
+  labels:
+    name: fleetman
+    app: fleetman-tracking
+

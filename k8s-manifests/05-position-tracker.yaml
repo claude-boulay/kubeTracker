@@ -1,0 +1,77 @@
+---
+# Deployment pour Position Tracker
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fleetman-position-tracker
+  namespace: fleetman
+  labels:
+    app: fleetman-position-tracker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fleetman-position-tracker
+  template:
+    metadata:
+      labels:
+        app: fleetman-position-tracker
+    spec:
+      containers:
+      - name: position-tracker
+        image: supinfo4kube/position-tracker:1.0.1
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "production-microservice"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 40
+          periodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - fleetman-position-tracker
+              topologyKey: kubernetes.io/hostname
+
+---
+# Service pour Position Tracker (ClusterIP - accès interne)
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-position-tracker
+  namespace: fleetman
+  labels:
+    app: fleetman-position-tracker
+spec:
+  type: ClusterIP
+  selector:
+    app: fleetman-position-tracker
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+

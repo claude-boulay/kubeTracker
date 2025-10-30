@@ -1,0 +1,88 @@
+---
+# Deployment pour ActiveMQ Queue
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fleetman-queue
+  namespace: fleetman
+  labels:
+    app: fleetman-queue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fleetman-queue
+  template:
+    metadata:
+      labels:
+        app: fleetman-queue
+    spec:
+      containers:
+      - name: queue
+        image: supinfo4kube/queue:1.0.1
+        ports:
+        - containerPort: 8161
+          name: admin
+        - containerPort: 61616
+          name: messaging
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          tcpSocket:
+            port: 61616
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 61616
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+---
+# Service pour ActiveMQ Queue (ClusterIP pour messaging interne)
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue
+  namespace: fleetman
+  labels:
+    app: fleetman-queue
+spec:
+  type: ClusterIP
+  selector:
+    app: fleetman-queue
+  ports:
+  - port: 61616
+    targetPort: 61616
+    protocol: TCP
+    name: messaging
+  - port: 8161
+    targetPort: 8161
+    protocol: TCP
+    name: admin
+
+---
+# Service NodePort optionnel pour accéder à l'interface admin ActiveMQ
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue-admin
+  namespace: fleetman
+  labels:
+    app: fleetman-queue
+spec:
+  type: NodePort
+  selector:
+    app: fleetman-queue
+  ports:
+  - port: 8161
+    targetPort: 8161
+    nodePort: 30161
+    protocol: TCP
+    name: admin
+
