@@ -25,21 +25,4 @@ spec:
           name: admin
         - containerPort: 61616
           name: messaging
-        # resources:
-        #   requests:
-        #     memory: "256Mi"
-        #     cpu: "100m"
-        #   limits:
-        #     memory: "512Mi"
-        #     cpu: "500m"
-        # readinessProbe:
-        #   tcpSocket:
-        #     port: 61616
-        #   initialDelaySeconds: 10
-        #   periodSeconds: 5
-        # livenessProbe:
-        #   tcpSocket:
-        #     port: 61616
-        #   initialDelaySeconds: 30
-        #   periodSeconds: 10
-
+       

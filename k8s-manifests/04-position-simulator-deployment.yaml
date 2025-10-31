@@ -23,11 +23,4 @@ spec:
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "production-microservice"
-        # resources:
-        #   requests:
-        #     memory: "256Mi"
-        #     cpu: "100m"
-        #   limits:
-        #     memory: "512Mi"
-        #     cpu: "500m"
 
