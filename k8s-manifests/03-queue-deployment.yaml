@@ -5,10 +5,8 @@ kind: Deployment
 metadata:
   name: fleetman-queue
   namespace: fleetman
-  labels:
-    app: fleetman-queue
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: fleetman-queue
@@ -22,7 +20,4 @@ spec:
         image: supinfo4kube/queue:1.0.1
         ports:
         - containerPort: 8161
-          name: admin
         - containerPort: 61616
-          name: messaging
-       
