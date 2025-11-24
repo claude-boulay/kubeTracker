@@ -25,5 +25,7 @@ spec:
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "production-microservice"
+        - name: TRACKER_HOST
+          value: "fleetman-position-tracker"
         
 

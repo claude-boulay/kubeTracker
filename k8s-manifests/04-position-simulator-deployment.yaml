@@ -23,4 +23,6 @@ spec:
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "production-microservice"
+        - name: SPRING_ACTIVEMQ_BROKER_URL
+          value: "tcp://fleetman-queue:61616"
 
